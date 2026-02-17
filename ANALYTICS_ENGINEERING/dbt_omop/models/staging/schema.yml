@@ -1,0 +1,39 @@
+version: 2
+
+models:
+  - name: stg_allergies
+    description: "Allergies across all states."
+  - name: stg_careplans
+    description: "Care plans across all states."
+  - name: stg_claims
+    description: "Claims across all states."
+  - name: stg_claims_transactions
+    description: "Claim transactions across all states."
+  - name: stg_conditions
+    description: "Conditions across all states."
+  - name: stg_devices
+    description: "Devices across all states."
+  - name: stg_encounters
+    description: "Encounters across all states."
+  - name: stg_imaging_studies
+    description: "Imaging studies across all states."
+  - name: stg_immunizations
+    description: "Immunizations across all states."
+  - name: stg_medications
+    description: "Medications across all states."
+  - name: stg_observations
+    description: "Observations across all states."
+  - name: stg_organizations
+    description: "Organizations across all states."
+  - name: stg_patients
+    description: "Patients across all states."
+  - name: stg_payer_transitions
+    description: "Payer transitions across all states."
+  - name: stg_payers
+    description: "Payers across all states."
+  - name: stg_procedures
+    description: "Procedures across all states."
+  - name: stg_providers
+    description: "Providers across all states."
+  - name: stg_supplies
+    description: "Supplies across all states."

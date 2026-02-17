@@ -1,3 +1,4 @@
 dbt-core
 dbt-sqlite
 pandas
+dbt-duckdb

@@ -1,0 +1,7 @@
+dbt_omop:
+  target: dev
+  outputs:
+    dev:
+      type: duckdb
+      path: omop.duckdb
+      threads: 4

@@ -35,7 +35,7 @@ def load_csv_to_sqlite(
     conn: sqlite3.Connection,
     chunksize: int = 100_000,
 ) -> None:
-    reader = pd.read_csv(csv_path, chunksize=chunksize)
+    reader = pd.read_csv(csv_path, chunksize=chunksize, low_memory=False)
     for chunk in reader:
         chunk = normalize_columns(chunk)
         chunk = ensure_column(chunk, "state", state)
@@ -46,7 +46,7 @@ def load_csv_to_sqlite(
 conn = sqlite3.connect("ehr.db")
 
 base_dir = "../"
-skip_dirs = {"OMOP_CDM", ".git", ".venv"}
+skip_dirs = {"ANALYTICS_ENGINEERING", ".git", ".venv"}
 
 for state in os.listdir(base_dir):
     if state in skip_dirs or state.startswith("."):
