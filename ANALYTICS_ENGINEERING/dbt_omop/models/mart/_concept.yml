@@ -1,0 +1,82 @@
+version: 2
+
+models:
+  - name: concept
+    description: "https://ohdsi.github.io/CommonDataModel/cdm54.html#concept"
+    columns:
+      - name: concept_id
+        data_type: integer
+        description: "A unique identifier for each Concept across all domains."
+        tests:
+          - unique
+          - not_null
+
+      - name: concept_name
+        data_type: varchar(255)
+        description: "An unambiguous, meaningful and descriptive name for the Concept. Blank for CPT4 without AMA license."
+        tests:
+          - not_null:
+              config:
+                severity: warn
+
+      - name: domain_id
+        data_type: varchar(20)
+        description: "A foreign key to the DOMAIN table the Concept belongs to."
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('domain')
+                field: domain_id
+              config:
+                severity: warn
+
+      - name: vocabulary_id
+        data_type: varchar(20)
+        description: "A foreign key to the VOCABULARY table indicating from which source the Concept has been adapted."
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('vocabulary')
+                field: vocabulary_id
+              config:
+                severity: warn
+
+      - name: concept_class_id
+        data_type: varchar(20)
+        description: "The attribute or concept class of the Concept. Examples are 'Clinical Drug', 'Ingredient', 'Clinical Finding' etc."
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('concept_class')
+                field: concept_class_id
+              config:
+                severity: warn
+
+      - name: standard_concept
+        data_type: varchar(1)
+        description: "This flag determines where a Concept is a Standard Concept, i.e. is used in the data, a Classification Concept, or a non-standard Source Concept. The allowable values are 'S' (Standard Concept) and 'C' (Classification Concept), otherwise the content is NULL."
+
+      - name: concept_code
+        data_type: varchar(50)
+        description: "The concept code represents the identifier of the Concept in the source vocabulary, such as SNOMED-CT concept IDs, RxNorm RXCUIs etc. Note that concept codes are not unique across vocabularies."
+        tests:
+          - not_null
+
+      - name: valid_start_date
+        data_type: date
+        description: "The date when the Concept was first recorded. The default value is 1-Jan-1970, meaning, the Concept has no (known) date of inception."
+        tests:
+          - not_null
+
+      - name: valid_end_date
+        data_type: date
+        description: "The date when the Concept became invalid because it was deleted or superseded (updated) by a new concept. The default value is 31-Dec-2099, meaning, the Concept is valid until it becomes deprecated."
+        tests:
+          - not_null
+
+      - name: invalid_reason
+        data_type: varchar(1)
+        description: "Reason the Concept was invalidated. Possible values are D (deleted), U (replaced with an update) or NULL when valid_end_date has the default value."

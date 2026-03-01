@@ -64,6 +64,15 @@ All data is **synthetic** -- no real patient information.
 The [`ANALYTICS_ENGINEERING/dbt_omop/`](ANALYTICS_ENGINEERING/dbt_omop/) project reads the CSVs from all 50 states, 
 tags each row with its source state, and unions them into staging views inside a DuckDB database.
 
+> [!WARNING]
+> You need the [OMOP vocabulary files from Athena](https://athena.ohdsi.org/) for this to work fully.
+> Download them and place the CSVs in `ANALYTICS_ENGINEERING/dbt_omop/seeds/`.
+>
+> My first instinct was to load them with `dbt seed`, but the Athena files are tab-delimited
+> and some have fields that exceed Python's csv parser limits -- so `dbt seed` chokes on them.
+> Instead, the vocabulary models load the CSVs directly through DuckDB's `read_csv_auto()`,
+> bypassing Python entirely. Same result, no drama.
+
 ## Quick Start
 
 ```bash

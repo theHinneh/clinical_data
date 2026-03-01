@@ -1,0 +1,6 @@
+version: 2
+
+# Athena vocabulary CSVs live in this directory but are loaded as models
+# (models/vocabulary/) using DuckDB's read_csv_auto() to avoid Python csv
+# module limitations with tab-delimited files and large fields.
+# See models/vocabulary/schema.yml for column definitions and tests.

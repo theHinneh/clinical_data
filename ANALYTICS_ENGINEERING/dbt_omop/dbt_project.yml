@@ -34,9 +34,16 @@ models:
     # Config indicated by + and applies to all files under models/example/
     staging:
       +materialized: view
+    intermediate:
+      +materialized: view
+    vocabulary:
+      +materialized: view
+    mart:
+      +materialized: table
 
 vars:
   data_root: "{{ env_var('ROOT_DIR') }}"
+  seed_root: "{{ env_var('ROOT_DIR') }}/ANALYTICS_ENGINEERING/dbt_omop/seeds"
   states:
     - Alabama
     - Alaska
