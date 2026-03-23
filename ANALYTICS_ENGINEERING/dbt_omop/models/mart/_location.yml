@@ -1,0 +1,54 @@
+version: 2
+
+models:
+  - name: location
+    description: "https://ohdsi.github.io/CommonDataModel/cdm54.html#location"
+    columns:
+      - name: location_id
+        data_type: integer
+        tests:
+          - unique
+          - not_null
+
+      - name: address_1
+        data_type: varchar(50)
+        description: "This is the first line of the address."
+
+      - name: address_2
+        data_type: varchar(50)
+        description: "This is the second line of the address."
+
+      - name: city
+        data_type: varchar(50)
+
+      - name: state
+        data_type: varchar(2)
+
+      - name: zip
+        data_type: varchar(9)
+
+      - name: county
+        data_type: varchar(20)
+
+      - name: location_source_value
+        data_type: varchar(50)
+        description: "Put the verbatim value for the location here, as it shows up in the source."
+
+      - name: country_concept_id
+        data_type: integer
+        description: "The Concept Id representing the country."
+        tests:
+          - relationships:
+              arguments:
+                to: ref('concept')
+                field: concept_id
+
+      - name: country_source_value
+        data_type: varchar(80)
+        description: "The name of the country."
+
+      - name: latitude
+        data_type: float
+
+      - name: longitude
+        data_type: float
