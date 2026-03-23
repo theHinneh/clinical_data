@@ -6,18 +6,24 @@ select
     , date_part('day', birthdate) as day_of_birth
     , birthdate as birth_datetime
     , coalesce(race_concept.concept_id, 0) as race_concept_id
-    , ethnicity_concept.concept_id as ethnicity_concept_id
-    , 0 as location_id --Todo
-    , 0 as provider_id --Todo
-    , 0 as care_site_id --Todo
+    , case
+        when patient.ethnicity = 'nonhispanic'
+            then 38003564
+        when patient.ethnicity = 'hispanic'
+            then 38003563
+        else 0
+    end as ethnicity_concept_id
+    , hash(id) as location_id -- Actually, nothing prevents us from using this as the primary key for the patient's location.
+    , null as provider_id -- I was expecting to find the PCP in the patient data, but it's not.
+    , null as care_site_id -- Since there's no PCP, this will be left as a null.
     , id as person_source_value
     , gender as gender_source_value
-    , 0 as gender_source_concept_id
+    , 0 as gender_source_concept_id -- I did not map this in the source_to_concept_map, so there's no corresponding source_concept_id.
     , race as race_source_value
-    , 0 as race_source_concept_id
+    , 0 as race_source_concept_id -- I did not map this in the source_to_concept_map, so there's no corresponding source_concept_id.
     , ethnicity as ethnicity_source_value
     , 0 as ethnicity_source_concept_id
-from {{ref('stg_patients')}} as patient
+from {{ref('stg_patients')}} as patient -- I did not map this in the source_to_concept_map, so there's no corresponding source_concept_id.
 
 left join {{ref('concept')}} gender_concept
     on gender_concept.concept_code = patient.gender -- lucky for me, this was an easy join.
@@ -29,10 +35,5 @@ left join {{ref('concept')}} race_concept
     on lower(race_concept.concept_name) = lower(patient.race)
     and race_concept.domain_id = 'Race'
     and race_concept.standard_concept = 'S'
-
-left join {{ref('concept')}} ethnicity_concept
-    on lower(ethnicity_concept.concept_name) = lower(patient.race)
-    and ethnicity_concept.domain_id = 'Ethnicity'
-    and ethnicity_concept.standard_concept = 'S'
 
 where deathdate is null

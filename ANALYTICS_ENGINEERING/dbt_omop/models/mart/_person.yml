@@ -1,0 +1,120 @@
+version: 2
+
+models:
+  - name: person
+    description: "https://ohdsi.github.io/CommonDataModel/cdm54.html#person"
+    columns:
+      - name: person_id
+        data_type: integer
+        tests:
+          - unique
+          - not_null
+
+      - name: gender_concept_id
+        data_type: integer
+        description: "This field is meant to capture the biological sex at birth of the Person."
+        tests:
+          - not_null
+          - valid_concept_in_domain:
+              arguments:
+                domain_id: Gender
+
+      - name: year_of_birth
+        data_type: integer
+        description: "Compute age using year_of_birth."
+        tests:
+          - not_null
+
+      - name: month_of_birth
+        data_type: integer
+
+      - name: day_of_birth
+        data_type: integer
+
+      - name: birth_datetime
+        data_type: datetime
+
+      - name: race_concept_id
+        data_type: integer
+        description: "This field captures race or ethnic background of the person."
+        tests:
+          - not_null
+          - valid_concept_in_domain:
+              arguments:
+                domain_id: Race
+
+      - name: ethnicity_concept_id
+        data_type: integer
+        description: "This field captures Ethnicity as defined by the Office of Management and Budget (OMB) of the US Government: it distinguishes only between “Hispanic” and “Not Hispanic”. Races and ethnic backgrounds are not stored here."
+        tests:
+          - not_null
+          - valid_concept_in_domain:
+              arguments:
+                domain_id: Ethnicity
+
+      - name: location_id
+        data_type: integer
+        description: "The location refers to the physical address of the person."
+        tests:
+          - relationships:
+              arguments:
+                to: ref('location')
+                field: location_id
+
+      - name: provider_id
+        data_type: integer
+        description: "The Provider refers to the last known primary care provider (General Practitioner)."
+        tests:
+          - relationships:
+              arguments:
+                to: ref('provider')
+                field: provider_id
+
+      - name: care_site_id
+        data_type: integer
+        description: "The Care Site refers to where the Provider typically provides the primary care."
+        tests:
+          - relationships:
+              arguments:
+                to: ref('care_site')
+                field: care_site_id
+
+      - name: person_source_value
+        data_type: varchar(50)
+        description: "Use this field to link back to persons in the source data."
+
+      - name: gender_source_value
+        data_type: varchar(50)
+        description: "This field is used to store the biological sex of the person from the source data."
+
+      - name: gender_source_concept_id
+        data_type: integer
+        tests:
+          - relationships:
+              arguments:
+                to: ref('concept')
+                field: concept_id
+
+      - name: race_source_value
+        data_type: varchar(50)
+        description: "This field is used to store the race of the person from the source data."
+
+      - name: race_source_concept_id
+        data_type: integer
+        tests:
+          - relationships:
+              arguments:
+                to: ref('concept')
+                field: concept_id
+
+      - name: ethnicity_source_value
+        data_type: varchar(50)
+        description: "This field is used to store the ethnicity of the person from the source data."
+
+      - name: ethnicity_source_concept_id
+        data_type: integer
+        tests:
+          - relationships:
+              arguments:
+                to: ref('concept')
+                field: concept_id
