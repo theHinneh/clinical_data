@@ -1,0 +1,76 @@
+version: 2
+
+models:
+  - name: provider
+    description: "https://ohdsi.github.io/CommonDataModel/cdm54.html#provider"
+    columns:
+      - name: provider_id
+        data_type: integer
+        tests:
+          - unique
+          - not_null
+
+      - name: provider_name
+        data_type: varchar(255)
+        description: "This field contains information that describes a healthcare provider."
+
+      - name: npi
+        data_type: varchar(20)
+        description: "This is the National Provider Number issued to health care providers in the US by the Centers for Medicare and Medicaid Services (CMS)."
+
+      - name: dea
+        data_type: varchar(20)
+        description: "This is the identifier issued by the DEA, a US federal agency, that allows a provider to write prescriptions for controlled substances."
+
+      - name: specialty_concept_id
+        data_type: integer
+        description: "This field either represents the most common specialty that occurs in the data or the most specific concept that represents all specialties listed, should the provider have more than one. This includes physician specialties such as internal medicine, emergency medicine, etc. and allied health professionals such as nurses, midwives, and pharmacists."
+        tests:
+          - valid_concept_in_domain:
+              arguments:
+                domain_id: Provider
+
+      - name: care_site_id
+        data_type: integer
+        description: "This is the CARE_SITE_ID for the location that the provider primarily practices in."
+        tests:
+          - relationships:
+              arguments:
+                to: ref('care_site')
+                field: care_site_id
+
+      - name: year_of_birth
+        data_type: integer
+
+      - name: gender_concept_id
+        data_type: integer
+        description: "This field represents the recorded gender of the provider in the source data."
+        tests:
+          - valid_concept_in_domain:
+              arguments:
+                domain_id: Gender
+
+      - name: provider_source_value
+        data_type: varchar(50)
+        description: "Use this field to link back to providers in the source data. This is typically used for error checking of ETL logic."
+
+      - name: specialty_source_value
+        data_type: varchar(50)
+        description: "This refers to the specific type of healthcare provider or field of expertise listed in the source data, encompassing physician specialties like internal medicine, emergency medicine, etc., as well as allied health professionals such as nurses, midwives, and pharmacists. It covers medical specialties like surgery, internal medicine, and radiology, while other services like prosthetics, acupuncture, and physical therapy fall under the domain of “Service.”"
+
+      - name: specialty_source_concept_id
+        data_type: integer
+        description: "This is often zero as many sites use proprietary codes to store physician speciality."
+        tests:
+          - relationships:
+              arguments:
+                to: ref('concept')
+                field: concept_id
+
+      - name: gender_source_value
+        data_type: varchar(50)
+        description: "This is provider’s gender as it appears in the source data."
+
+      - name: gender_source_concept_id
+        data_type: integer
+        description: "This is often zero as many sites use proprietary codes to store provider gender."

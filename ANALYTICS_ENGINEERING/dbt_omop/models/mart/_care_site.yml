@@ -1,0 +1,41 @@
+version: 2
+
+models:
+  - name: care_site
+    description: "https://ohdsi.github.io/CommonDataModel/cdm54.html#care_site"
+    columns:
+      - name: care_site_id
+        data_type: integer
+        tests:
+          - not_null
+          - unique
+
+      - name: care_site_name
+        data_type: varchar(255)
+        description: "The name of the care_site as it appears in the source data"
+
+      - name: place_of_service_concept_id
+        data_type: integer
+        description: "This is a high-level way of characterizing a Care Site. Typically, however, Care Sites can provide care in multiple settings (inpatient, outpatient, etc.) and this granularity should be reflected in the visit."
+        tests:
+          - relationships:
+              arguments:
+                to: ref('concept')
+                field: concept_id
+
+      - name: location_id
+        data_type: integer
+        description: "The location_id from the LOCATION table representing the physical location of the care_site."
+        tests:
+          - relationships:
+              arguments:
+                to: ref('location')
+                field: location_id
+
+      - name: care_site_source_value
+        data_type: varchar(50)
+        description: "The identifier of the care_site as it appears in the source data. This could be an identifier separate from the name of the care_site."
+
+      - name: place_of_service_source_value
+        data_type: varchar(50)
+        description: "Put the place of service of the care_site as it appears in the source data."

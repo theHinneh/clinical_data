@@ -51,11 +51,6 @@
         when 'Wisconsin' then 'WI'
         when 'Wyoming' then 'WY'
         when 'District of Columbia' then 'DC'
-        when 'Puerto Rico' then 'PR'
-        when 'Guam' then 'GU'
-        when 'Virgin Islands' then 'VI'
-        when 'American Samoa' then 'AS'
-        when 'Northern Mariana Islands' then 'MP'
         ELSE {{ column }}
     end
 {% endmacro %}
