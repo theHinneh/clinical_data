@@ -40,6 +40,8 @@ models:
       +materialized: view
     mart:
       +materialized: view # This is usually a table, but I'm loosing storage space, so I chose to make this a view. Please don't do the same thing.
+      # +contract:
+      #   enforced: true
 
 vars:
   data_root: "{{ env_var('ROOT_DIR') }}"

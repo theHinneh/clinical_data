@@ -15,7 +15,10 @@ select
     , null as admitting_source_value
     , 0 as discharge_to_concept_id
     , null as discharge_to_source_value
-    , 0 as preceding_visit_occurrence_id
+    , lag(hash(id)) over (
+        partition by int_person.person_id
+        order by start
+    ) as preceding_visit_occurrence_id
 from {{ ref('stg_encounters') }}
 
 inner join {{ ref('int_person') }}
