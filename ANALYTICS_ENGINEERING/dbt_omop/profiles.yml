@@ -4,4 +4,7 @@ dbt_omop:
     dev:
       type: duckdb
       path: omop.duckdb
-      threads: 4
+      threads: 1
+      settings:
+        memory_limit: '6GB'
+        preserve_insertion_order: false

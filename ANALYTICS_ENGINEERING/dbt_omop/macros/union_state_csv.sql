@@ -4,7 +4,8 @@
 select
   *,
   '{{ state }}' as state,
-  '{{ state }}' as tenant_id
+  '{{ state }}' as tenant_id,
+  current_date as _loaded_date
 from read_csv_auto(
   '{{ var("data_root") }}/{{ state }}/{{ file_name }}',
   header=true

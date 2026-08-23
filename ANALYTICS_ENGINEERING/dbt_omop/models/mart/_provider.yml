@@ -3,6 +3,12 @@ version: 2
 models:
   - name: provider
     description: "https://ohdsi.github.io/CommonDataModel/cdm54.html#provider"
+    config:
+      materialized: incremental
+      file_format: 'csv'
+      unique_key: 'provider_id'
+      incremental_strategy: 'merge'
+
     columns:
       - name: provider_id
         data_type: integer

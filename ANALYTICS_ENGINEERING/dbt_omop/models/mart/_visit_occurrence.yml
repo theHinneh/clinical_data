@@ -3,6 +3,12 @@ version: 2
 models:
   - name: visit_occurrence
     description: "https://ohdsi.github.io/CommonDataModel/cdm54.html#visit_occurrence"
+    config:
+      materialized: incremental
+      file_format: 'csv'
+      unique_key: 'visit_occurrence_id'
+      incremental_strategy: 'merge'
+
     columns:
       - name: visit_occurrence_id
         data_type: integer

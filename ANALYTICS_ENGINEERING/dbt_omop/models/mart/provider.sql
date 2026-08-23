@@ -13,3 +13,7 @@ select
     ,gender_source_value
     ,gender_source_concept_id
 from {{ref('int_provider')}}
+
+{% if is_incremental() %}
+where _loaded_date >= dateadd(day, -{{ var('lookback_days', 2) }}, current_date)
+{% endif %}

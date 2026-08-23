@@ -12,6 +12,7 @@ select
     , 0 as specialty_source_concept_id
     , provider.gender as gender_source_value
     , 0 as gender_source_concept_id
+    , _loaded_date
 from {{ref('stg_providers')}} as provider
 
 left join {{ref('concept')}} as specialty_concept

@@ -19,6 +19,7 @@ select
         partition by int_person.person_id
         order by start
     ) as preceding_visit_occurrence_id
+    , stg_encounters._loaded_date
 from {{ ref('stg_encounters') }}
 
 inner join {{ ref('int_person') }}

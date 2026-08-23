@@ -11,4 +11,5 @@ select
     , 'USA' as country_source_value
     , lat as latitude
     , lon as longitude
+    , _loaded_date
 from {{ref('stg_patients')}}

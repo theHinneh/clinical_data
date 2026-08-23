@@ -12,3 +12,7 @@ select
     , latitude
     , longitude
 from {{ref('int_location')}}
+
+{% if is_incremental() %}
+where _loaded_date >= dateadd(day, -{{ var('lookback_days', 2) }}, current_date)
+{% endif %}

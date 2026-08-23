@@ -17,3 +17,7 @@ select
     , discharge_to_source_value
     , preceding_visit_occurrence_id
 from {{ ref('int_visit_occurrence') }}
+
+{% if is_incremental() %}
+where _loaded_date >= dateadd(day, -{{ var('lookback_days', 2) }}, current_date)
+{% endif %}

@@ -23,6 +23,7 @@ select
     , 0 as race_source_concept_id -- I did not map this in the source_to_concept_map, so there's no corresponding source_concept_id.
     , ethnicity as ethnicity_source_value
     , 0 as ethnicity_source_concept_id
+    , _loaded_date
 from {{ref('stg_patients')}} as patient -- I did not map this in the source_to_concept_map, so there's no corresponding source_concept_id.
 
 left join {{ref('concept')}} gender_concept

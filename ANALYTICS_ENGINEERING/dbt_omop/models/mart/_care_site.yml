@@ -3,6 +3,12 @@ version: 2
 models:
   - name: care_site
     description: "https://ohdsi.github.io/CommonDataModel/cdm54.html#care_site"
+    config:
+      materialized: incremental
+      file_format: 'csv'
+      unique_key: 'care_site_id'
+      incremental_strategy: 'merge'
+        
     columns:
       - name: care_site_id
         data_type: integer

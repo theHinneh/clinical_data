@@ -3,6 +3,12 @@ version: 2
 models:
   - name: person
     description: "https://ohdsi.github.io/CommonDataModel/cdm54.html#person"
+    config:
+      materialized: incremental
+      file_format: 'csv'
+      unique_key: 'person_id'
+      incremental_strategy: 'merge'
+
     columns:
       - name: person_id
         data_type: integer

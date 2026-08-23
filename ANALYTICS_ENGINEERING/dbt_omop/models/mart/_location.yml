@@ -3,6 +3,12 @@ version: 2
 models:
   - name: location
     description: "https://ohdsi.github.io/CommonDataModel/cdm54.html#location"
+    config:
+      materialized: incremental
+      file_format: 'csv'
+      unique_key: 'location_id'
+      incremental_strategy: 'merge'
+
     columns:
       - name: location_id
         data_type: integer

@@ -11,9 +11,10 @@ select
     , country_source_value
     , latitude
     , longitude
+    , _loaded_date
 from {{ref('int_patient_location')}}
 
-union
+union all
 
 select
     location_id
@@ -28,9 +29,10 @@ select
     , country_source_value
     , latitude
     , longitude
+    , _loaded_date
 from {{ref('int_organization_location')}}
 
-union
+union all
 
 select
     location_id
@@ -45,4 +47,5 @@ select
     , country_source_value
     , latitude
     , longitude
+    , _loaded_date
 from {{ref('int_provider_location')}}

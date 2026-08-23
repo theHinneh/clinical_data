@@ -1,7 +1,3 @@
-
-# Name your project! Project names should contain only lowercase characters
-# and underscores. A good package name should reflect your organization's
-# name or the intended use of these models
 name: 'dbt_omop'
 version: '1.0.0'
 
@@ -46,6 +42,7 @@ models:
 vars:
   data_root: "{{ env_var('ROOT_DIR') }}"
   seed_root: "{{ env_var('ROOT_DIR') }}/ANALYTICS_ENGINEERING/dbt_omop/seeds"
+  lookback_days: "{{ env_var('LOOKBACK_DAYS', 2) | int }}"
   states:
     - Alabama
     - Alaska

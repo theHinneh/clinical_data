@@ -18,3 +18,7 @@ select
     ,ethnicity_source_value
     ,ethnicity_source_concept_id
 from {{ref('int_person')}}
+
+{% if is_incremental() %}
+where _loaded_date >= dateadd(day, -{{ var('lookback_days', 2) }}, current_date)
+{% endif %}
